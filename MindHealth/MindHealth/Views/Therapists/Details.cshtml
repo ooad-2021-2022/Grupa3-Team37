@@ -1,0 +1,48 @@
+﻿@model MindHealth.Models.Korisnik
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+    <h4 style="text-align:center;color:#193f91">Therapist</h4>
+
+   <br/>
+    <p style="text-align:center;">  <img src="@Url.Content(@Model.slikaOsobe)" alt="img" class="center" /></p>
+        <b> <p style="text-align:center;color:#193f91">@Model.ime @Model.prezime</p> </b> 
+        <br/>
+   <head></head>
+ <body>
+    <div style="width: 100%;">
+        <div style="width: 50%; height: 100px; float: left; "> 
+        <p style="color:#193f91"><b> Education: </b> @Model.skolovanje </p>
+        <p style="color:#193f91"><b>Previous experiences: </b>@Model.prethodnoIskustvo</p>
+        <p style="color:#193f91"><b>Birth date: </b>@Model.datumRodjenja.ToShortDateString()</p>
+        <p style="color:#193f91"><b>Language: </b>@Model.preferiraniJezik</p>
+        </div>
+        <div style="margin-left: 70%; height: 100px;"> 
+              <p style="color:#193f91"><b>Email: </b>@Model.email</p>
+        <p style="color:#193f91"><b>Hours of operation: </b>@Model.pocetakRadnogVremena.Hour:@Model.pocetakRadnogVremena.Minute - @Model.krajRadnogVremena.Hour:@Model.krajRadnogVremena.Minute</p>
+        <p style="color:#193f91"><b>Specializes in: </b>@Model.specijalizacija</p>
+         </div>
+    </div>
+ </body>
+ <br/>
+  <br/>
+   <br/>
+  <div style="margin-left: 45%; height: 100px;"> 
+      @if(User.IsInRole("Korisnik")||User.IsInRole("PremiumKorisnik")){
+ <input name="Make An Appointment" value="Make An Appointment" id="Button1" title="Make An Appointment" style="border-style:Solid; color:#FFFFFF; background-color:#193f91" type="submit" onclick="location.href='@Url.Action("MakeAnAppointment",new { @id = @Model.Id })'">
+      } </div>
+ <br/>
+ <br/>
+ <br/>
+          <style>
+        body{
+            margin: 0;
+            background-color: #c6cbe1;
+        }
+            </style>
+
+

@@ -16,7 +16,8 @@ namespace MindHealth.Models
         [ForeignKey("Korisnik")]
         public int idKorisnika { get; set; }
         public DateTime vrijemeOdrzavanja { get; set; }
-        public Korisnik Korisnik { get; set; }
+        [ForeignKey("Korisnik")]
+        public int idPsiholog { get; set; }
 
 
         public Termin() { }

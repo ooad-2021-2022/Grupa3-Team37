@@ -1,6 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace MindHealth.Models
 {
@@ -8,7 +12,8 @@ namespace MindHealth.Models
     {
         [Key]
         public int Id { get; set; }
-        public string imeIPrezime { get; set; }
+        public string ime { get; set; }
+        public string prezime { get; set; }
         public string email { get; set; }
         public string username { get; set; }
         public DateTime datumRodjenja { get; set; }
@@ -24,9 +29,10 @@ namespace MindHealth.Models
         public DateTime datumRegistracije { get; set; }
         public DostupniJezici preferiraniJezik { get; set; }
         public OpcijePlacanja preferiraniNacinUplate { get; set; }
-
+        public  VrstaDijagnoze specijalizacija { get; set; }
         public Korisnik()
         { }
+     
 
     }
     

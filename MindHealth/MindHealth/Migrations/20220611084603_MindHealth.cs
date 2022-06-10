@@ -52,7 +52,8 @@ namespace MindHealth.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    imeIPrezime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    prezime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     datumRodjenja = table.Column<DateTime>(type: "datetime2", nullable: false),

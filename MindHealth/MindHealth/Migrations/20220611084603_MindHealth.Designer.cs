@@ -10,7 +10,7 @@ using MindHealth.Data;
 namespace MindHealth.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220608154115_MindHealth")]
+    [Migration("20220611084603_MindHealth")]
     partial class MindHealth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace MindHealth.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.14")
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -257,7 +257,7 @@ namespace MindHealth.Migrations
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("imeIPrezime")
+                    b.Property<string>("ime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("krajRadnogVremena")
@@ -273,6 +273,9 @@ namespace MindHealth.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("prethodnoIskustvo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("prezime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("prosjecnaOcjena")

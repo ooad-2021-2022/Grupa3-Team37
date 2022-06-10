@@ -1,0 +1,109 @@
+﻿@model MindHealth.Models.Korisnik
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Korisnik</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ime" class="control-label"></label>
+                <input asp-for="ime" class="form-control" />
+                <span asp-validation-for="ime" class="text-danger"></span>
+            </div>
+                        <div class="form-group">
+                <label asp-for="prezime" class="control-label"></label>
+                <input asp-for="prezime" class="form-control" />
+                <span asp-validation-for="prezime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="username" class="control-label"></label>
+                <input asp-for="username" class="form-control" />
+                <span asp-validation-for="username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="datumRodjenja" class="control-label"></label>
+                <input asp-for="datumRodjenja" class="form-control" />
+                <span asp-validation-for="datumRodjenja" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="slikaOsobe" class="control-label"></label>
+                <input asp-for="slikaOsobe" class="form-control" />
+                <span asp-validation-for="slikaOsobe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="prosjecnaOcjena" class="control-label"></label>
+                <input asp-for="prosjecnaOcjena" class="form-control" />
+                <span asp-validation-for="prosjecnaOcjena" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="vrijemeNarednogTermina" class="control-label"></label>
+                <input asp-for="vrijemeNarednogTermina" class="form-control" />
+                <span asp-validation-for="vrijemeNarednogTermina" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="skolovanje" class="control-label"></label>
+                <input asp-for="skolovanje" class="form-control" />
+                <span asp-validation-for="skolovanje" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="slika" class="control-label"></label>
+                <input asp-for="slika" class="form-control" />
+                <span asp-validation-for="slika" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="prethodnoIskustvo" class="control-label"></label>
+                <input asp-for="prethodnoIskustvo" class="form-control" />
+                <span asp-validation-for="prethodnoIskustvo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="pocetakRadnogVremena" class="control-label"></label>
+                <input asp-for="pocetakRadnogVremena" class="form-control" />
+                <span asp-validation-for="pocetakRadnogVremena" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="krajRadnogVremena" class="control-label"></label>
+                <input asp-for="krajRadnogVremena" class="form-control" />
+                <span asp-validation-for="krajRadnogVremena" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="datumRegistracije" class="control-label"></label>
+                <input asp-for="datumRegistracije" class="form-control" />
+                <span asp-validation-for="datumRegistracije" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="preferiraniJezik" class="control-label"></label>
+                <select asp-for="preferiraniJezik" class="form-control"></select>
+                <span asp-validation-for="preferiraniJezik" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="preferiraniNacinUplate" class="control-label"></label>
+                <select asp-for="preferiraniNacinUplate" class="form-control"></select>
+                <span asp-validation-for="preferiraniNacinUplate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
