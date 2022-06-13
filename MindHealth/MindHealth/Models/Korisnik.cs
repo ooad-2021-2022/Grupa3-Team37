@@ -22,6 +22,11 @@ namespace MindHealth.Models
         public DateTime vrijemeNarednogTermina { get; set; }
         public string skolovanje { get; set; }
 
+        internal object First()
+        {
+            throw new NotImplementedException();
+        }
+
         public string slika { get; set; }
         public string prethodnoIskustvo { get; set; }
         public DateTime pocetakRadnogVremena { get; set; }

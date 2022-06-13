@@ -8,9 +8,11 @@ namespace MindHealth.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Dijagnoza")]
-        public int dijagnozaID { get; set; }
-        public Dijagnoza Dijagnoza { get; set; }
+        [ForeignKey("Upitnik")]
+        public int upitnikID { get; set; }
+        public Upitnik upitnik { get; set; }
+        public int odgovoreno { get; set; }
+        public string tekstPitanja { get; set; }
 
 
         public OdgovoriNaPitanje() { }

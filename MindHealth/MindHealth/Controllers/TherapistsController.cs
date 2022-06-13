@@ -56,16 +56,12 @@ namespace MindHealth.Controllers
 
         }
         
-        [HttpPost]
+        [HttpPost, ActionName("MakeAnAppointment")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckAvailability(Termin termin) {
-            
-            if (ModelState.IsValid)
-            {
-                _context.Add(termin);
+        public async Task<IActionResult> MakeAnAppointment(Termin termin) { 
+            if (ModelState.IsValid) {_context.Add(termin);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+                return RedirectToAction(nameof(Index));}
             return View();
         }
 
@@ -82,7 +78,9 @@ namespace MindHealth.Controllers
             termin.usernameKorisnika = User.Identity.Name;
             termin.usernamePsihoterapeuta = korisnik.username;
             termin.opisTermina = "";
+            termin.vrijemeOdrzavanja = DateTime.Today;
             termin.idPsiholog = korisnik.Id;
+            termin.idKorisnika = 1;
             if (korisnik == null)
             {
                 return NotFound();

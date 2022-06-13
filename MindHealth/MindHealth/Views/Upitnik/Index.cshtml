@@ -1,0 +1,34 @@
+﻿@model IEnumerable<MindHealth.Models.OdgovoriNaPitanje>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Questionnaire</h3>
+<br/>
+<br/>
+
+@foreach(var item in @Model)
+{
+   <b> @item.tekstPitanja</b>
+    <br/>
+    <br/>
+    <FORM 
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc" >Almost never.<BR>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc" >Sometimes.<BR>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc" >Always.<BR>
+</FORM>
+<br/>
+<br/>
+}
+<INPUT TYPE="SUBMIT" VALUE="Finish" onclick="location.href='@Url.Action("SubmitAnswer",new { @vr=3 })'">
+
+        
+
+   
+

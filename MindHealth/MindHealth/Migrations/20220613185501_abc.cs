@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MindHealth.Migrations
 {
-    public partial class MindHealth : Migration
+    public partial class abc : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,11 +67,31 @@ namespace MindHealth.Migrations
                     krajRadnogVremena = table.Column<DateTime>(type: "datetime2", nullable: false),
                     datumRegistracije = table.Column<DateTime>(type: "datetime2", nullable: false),
                     preferiraniJezik = table.Column<int>(type: "int", nullable: false),
-                    preferiraniNacinUplate = table.Column<int>(type: "int", nullable: false)
+                    preferiraniNacinUplate = table.Column<int>(type: "int", nullable: false),
+                    specijalizacija = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Korisnik", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Termin",
+                columns: table => new
+                {
+                    idTermina = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    cijenaTermina = table.Column<double>(type: "float", nullable: false),
+                    usernameKorisnika = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    usernamePsihoterapeuta = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    opisTermina = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    idKorisnika = table.Column<int>(type: "int", nullable: false),
+                    vrijemeOdrzavanja = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    idPsiholog = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Termin", x => x.idTermina);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,6 +201,35 @@ namespace MindHealth.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Chat",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    idUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    idTherapist = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TherapistId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chat", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Chat_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Chat_AspNetUsers_TherapistId",
+                        column: x => x.TherapistId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ocjene",
                 columns: table => new
                 {
@@ -243,30 +292,6 @@ namespace MindHealth.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Termin",
-                columns: table => new
-                {
-                    idTermina = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    cijenaTermina = table.Column<double>(type: "float", nullable: false),
-                    usernameKorisnika = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    usernamePsihoterapeuta = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    opisTermina = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    idKorisnika = table.Column<int>(type: "int", nullable: false),
-                    vrijemeOdrzavanja = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Termin", x => x.idTermina);
-                    table.ForeignKey(
-                        name: "FK_Termin_Korisnik_idKorisnika",
-                        column: x => x.idKorisnika,
-                        principalTable: "Korisnik",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Upitnik",
                 columns: table => new
                 {
@@ -307,81 +332,23 @@ namespace MindHealth.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RezultatUpitnika",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    postotak = table.Column<double>(type: "float", nullable: false),
-                    upitnikId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RezultatUpitnika", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RezultatUpitnika_Upitnik_upitnikId",
-                        column: x => x.upitnikId,
-                        principalTable: "Upitnik",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Dijagnoza",
-                columns: table => new
-                {
-                    idDijagnoze = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    vrstaDijagnoze = table.Column<int>(type: "int", nullable: false),
-                    rezultatUpitnikaID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Dijagnoza", x => x.idDijagnoze);
-                    table.ForeignKey(
-                        name: "FK_Dijagnoza_RezultatUpitnika_rezultatUpitnikaID",
-                        column: x => x.rezultatUpitnikaID,
-                        principalTable: "RezultatUpitnika",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OdgovoriNaPitanje",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    dijagnozaID = table.Column<int>(type: "int", nullable: false)
+                    upitnikID = table.Column<int>(type: "int", nullable: false),
+                    odgovoreno = table.Column<int>(type: "int", nullable: false),
+                    tekstPitanja = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OdgovoriNaPitanje", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OdgovoriNaPitanje_Dijagnoza_dijagnozaID",
-                        column: x => x.dijagnozaID,
-                        principalTable: "Dijagnoza",
-                        principalColumn: "idDijagnoze",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pitanje",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    tekstPitanja = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    dijagnozaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pitanje", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pitanje_Dijagnoza_dijagnozaId",
-                        column: x => x.dijagnozaId,
-                        principalTable: "Dijagnoza",
-                        principalColumn: "idDijagnoze",
+                        name: "FK_OdgovoriNaPitanje_Upitnik_upitnikID",
+                        column: x => x.upitnikID,
+                        principalTable: "Upitnik",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -445,9 +412,14 @@ namespace MindHealth.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dijagnoza_rezultatUpitnikaID",
-                table: "Dijagnoza",
-                column: "rezultatUpitnikaID");
+                name: "IX_Chat_IdentityUserId",
+                table: "Chat",
+                column: "IdentityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chat_TherapistId",
+                table: "Chat",
+                column: "TherapistId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ocjene_idKorisnika",
@@ -460,14 +432,9 @@ namespace MindHealth.Migrations
                 column: "odgovoriNaPitanjeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OdgovoriNaPitanje_dijagnozaID",
+                name: "IX_OdgovoriNaPitanje_upitnikID",
                 table: "OdgovoriNaPitanje",
-                column: "dijagnozaID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pitanje_dijagnozaId",
-                table: "Pitanje",
-                column: "dijagnozaId");
+                column: "upitnikID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrethodnaTerapija_idKorisnika",
@@ -480,18 +447,8 @@ namespace MindHealth.Migrations
                 column: "idTermina");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RezultatUpitnika_upitnikId",
-                table: "RezultatUpitnika",
-                column: "upitnikId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SpecijalizacijaDijagnoze_idKorisnika",
                 table: "SpecijalizacijaDijagnoze",
-                column: "idKorisnika");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Termin_idKorisnika",
-                table: "Termin",
                 column: "idKorisnika");
 
             migrationBuilder.CreateIndex(
@@ -518,13 +475,13 @@ namespace MindHealth.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Chat");
+
+            migrationBuilder.DropTable(
                 name: "Ocjene");
 
             migrationBuilder.DropTable(
                 name: "Odgovor");
-
-            migrationBuilder.DropTable(
-                name: "Pitanje");
 
             migrationBuilder.DropTable(
                 name: "PrethodnaTerapija");
@@ -546,12 +503,6 @@ namespace MindHealth.Migrations
 
             migrationBuilder.DropTable(
                 name: "Termin");
-
-            migrationBuilder.DropTable(
-                name: "Dijagnoza");
-
-            migrationBuilder.DropTable(
-                name: "RezultatUpitnika");
 
             migrationBuilder.DropTable(
                 name: "Upitnik");
