@@ -10,23 +10,22 @@ using MindHealth.Models;
 
 namespace MindHealth.Controllers
 {
-    public class OcjenesController : Controller
+    public class TerminsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public OcjenesController(ApplicationDbContext context)
+        public TerminsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Ocjenes
+        // GET: Termins
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Ocjene.Include(o => o.Korisnik);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Termin.ToListAsync());
         }
 
-        // GET: Ocjenes/Details/5
+        // GET: Termins/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace MindHealth.Controllers
                 return NotFound();
             }
 
-            var ocjene = await _context.Ocjene
-                .Include(o => o.Korisnik)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (ocjene == null)
+            var termin = await _context.Termin
+                .FirstOrDefaultAsync(m => m.idTermina == id);
+            if (termin == null)
             {
                 return NotFound();
             }
 
-            return View(ocjene);
+            return View(termin);
         }
 
-        // GET: Ocjenes/Create
+        // GET: Termins/Create
         public IActionResult Create()
         {
-            ViewData["idKorisnika"] = new SelectList(_context.Korisnik, "Id", "Id");
             return View();
         }
 
-        // POST: Ocjenes/Create
+        // POST: Termins/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ocjena,idKorisnika")] Ocjene ocjene)
+        public async Task<IActionResult> Create([Bind("idTermina,cijenaTermina,usernameKorisnika,usernamePsihoterapeuta,opisTermina,idKorisnika,vrijemeOdrzavanja,idPsiholog")] Termin termin)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ocjene);
+                _context.Add(termin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["idKorisnika"] = new SelectList(_context.Korisnik, "Id", "Id", ocjene.idKorisnika);
-            return View(ocjene);
+            return View(termin);
         }
 
-        // GET: Ocjenes/Edit/5
+        // GET: Termins/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace MindHealth.Controllers
                 return NotFound();
             }
 
-            var ocjene = await _context.Ocjene.FindAsync(id);
-            if (ocjene == null)
+            var termin = await _context.Termin.FindAsync(id);
+            if (termin == null)
             {
                 return NotFound();
             }
-            ViewData["idKorisnika"] = new SelectList(_context.Korisnik, "Id", "Id", ocjene.idKorisnika);
-            return View(ocjene);
+            return View(termin);
         }
 
-        // POST: Ocjenes/Edit/5
+        // POST: Termins/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,ocjena,idKorisnika")] Ocjene ocjene)
+        public async Task<IActionResult> Edit(int id, [Bind("idTermina,cijenaTermina,usernameKorisnika,usernamePsihoterapeuta,opisTermina,idKorisnika,vrijemeOdrzavanja,idPsiholog")] Termin termin)
         {
-            if (id != ocjene.ID)
+            if (id != termin.idTermina)
             {
                 return NotFound();
             }
@@ -102,13 +97,12 @@ namespace MindHealth.Controllers
             {
                 try
                 {
-                    _context.Ocjene.Remove(ocjene);
-                    _context.Update(ocjene);
+                    _context.Update(termin);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OcjeneExists(ocjene.ID))
+                    if (!TerminExists(termin.idTermina))
                     {
                         return NotFound();
                     }
@@ -119,11 +113,10 @@ namespace MindHealth.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["idKorisnika"] = new SelectList(_context.Korisnik, "Id", "Id", ocjene.idKorisnika);
-            return View(ocjene);
+            return View(termin);
         }
 
-        // GET: Ocjenes/Delete/5
+        // GET: Termins/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,31 +124,30 @@ namespace MindHealth.Controllers
                 return NotFound();
             }
 
-            var ocjene = await _context.Ocjene
-                .Include(o => o.Korisnik)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (ocjene == null)
+            var termin = await _context.Termin
+                .FirstOrDefaultAsync(m => m.idTermina == id);
+            if (termin == null)
             {
                 return NotFound();
             }
 
-            return View(ocjene);
+            return View(termin);
         }
 
-        // POST: Ocjenes/Delete/5
+        // POST: Termins/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ocjene = await _context.Ocjene.FindAsync(id);
-            _context.Ocjene.Remove(ocjene);
+            var termin = await _context.Termin.FindAsync(id);
+            _context.Termin.Remove(termin);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OcjeneExists(int id)
+        private bool TerminExists(int id)
         {
-            return _context.Ocjene.Any(e => e.ID == id);
+            return _context.Termin.Any(e => e.idTermina == id);
         }
     }
 }

@@ -21,22 +21,45 @@ namespace MindHealth.Controllers
 
         // GET: Upitnik
         public async Task<IActionResult> Index()
-        { var applicationDbContext = _context.Korisnik.FirstOrDefault(u => u.username == User.Identity.Name);
-            var app = _context.Upitnik.FirstOrDefault(u => u.idKorisnika == applicationDbContext.Id);
+        { //var applicationDbContext = _context.Korisnik.FirstOrDefault(u => u.username == User.Identity.Name);
+           // var app = _context.Upitnik.FirstOrDefault(u => u.idKorisnika == applicationDbContext.Id);
             var a = _context.OdgovoriNaPitanje.Include(o => o.upitnik);
-            return View(await a.ToListAsync());
+            List<String> l=new List<String>();
+            l.Add("Yes");
+            l.Add("No");
+            return View(a);
         }
        
-        /* public async Task<IActionResult> Index()
+        public async Task<IActionResult> AddTheAnswer([Bind("Id,upitnikId, odgovoreno, tekstPitanja")] OdgovoriNaPitanje odgovor)
          {
-             if (ModelState.IsValid)
-             {
-                 _context.Add(termin);
-                 await _context.SaveChangesAsync();
-                 return RedirectToAction(nameof(Index));
-             }
-             return View();
-         }*/
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                   // _context.Ocjene.Remove(o);
+                    _context.Update(odgovor);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OdgovorExists(odgovor.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
+        }
+        private bool OdgovorExists(int id)
+        {
+            return _context.Ocjene.Any(e => e.ID == id);
+        }
     } 
       
 }

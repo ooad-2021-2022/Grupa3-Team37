@@ -24,7 +24,29 @@ namespace MindHealth.Controllers
         // GET: Therapists
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Korisnik.ToListAsync());
+            var x = await _context.Korisnik.ToListAsync();
+            var x1 = await _context.Users.ToListAsync();
+            List<Korisnik> ter=new List<Korisnik>();
+            if (x1.Count > 0 && x.Count > 0)
+                foreach (var i in x)
+                {
+                    if (x1.Any(a => a.UserName == i.email))
+                    {
+                        var y = x1.First(a => a.UserName == i.email);
+                        if (y != null)
+                        {
+                            if (_context.UserRoles.Any(a => a.UserId == y.Id && a.RoleId == "1"))
+                            {
+                                var rol = _context.UserRoles.First(a => a.UserId == y.Id && a.RoleId == "1");
+                                if (rol != null)
+                                {
+                                    ter.Add(i);
+                                }
+                            }
+                        }
+                    }
+                }
+            return View(ter);
         }
 
         // GET: Therapists/Details/5
@@ -45,12 +67,12 @@ namespace MindHealth.Controllers
             return View(korisnik);
         }
         [Authorize(Roles = "Korisnik, PremiumKorisnik")]
-      public  async Task<IActionResult> CheckAvailability(int id,DateTime datum)
+      public  async Task<IActionResult> CheckAvailability(int id,DateTime datum,Termin termin)
         {
             var terminiTerapeuta= await _context.Termin.FirstOrDefaultAsync(m => m.idPsiholog ==id&& m.vrijemeOdrzavanja == datum);
             if (terminiTerapeuta == null)
             {
-                return View();
+                return View(termin);
             }
             return NotFound();
 
@@ -58,15 +80,19 @@ namespace MindHealth.Controllers
         
         [HttpPost, ActionName("MakeAnAppointment")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MakeAnAppointment(Termin termin) { 
-            if (ModelState.IsValid) {_context.Add(termin);
+        public async Task<IActionResult> MakeAnAppointment([Bind("idTermina,cijenaTermina,usernameKorisnika,usernamePsihoterapeuta,opisTermina,idKorisnika,vrijemeOdrzavanja,idPsiholog")] Termin termin)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(termin);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));}
-            return View();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(termin);
         }
 
         [Authorize(Roles ="Korisnik, PremiumKorisnik")]
-       public async Task<IActionResult> MakeAnAppointment(int? id)
+       public async Task<IActionResult> MakeAnAppointment(int id)
         {
             if (id == null)
             {
@@ -79,8 +105,8 @@ namespace MindHealth.Controllers
             termin.usernamePsihoterapeuta = korisnik.username;
             termin.opisTermina = "";
             termin.vrijemeOdrzavanja = DateTime.Today;
-            termin.idPsiholog = korisnik.Id;
-            termin.idKorisnika = 1;
+            termin.idPsiholog = id;
+            termin.idKorisnika = 4;
             if (korisnik == null)
             {
                 return NotFound();

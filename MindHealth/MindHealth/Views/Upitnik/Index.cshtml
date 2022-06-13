@@ -11,22 +11,34 @@
 
 @foreach(var item in @Model)
 {
-   <b> @item.tekstPitanja</b>
+    <form asp-action="AddTheAnswer">
+         <div asp-validation-summary="ModelOnly" class="text-danger"></div> 
+   <b> @item.tekstPitanja</b> 
+      <div class="form-group">
+          <input type="hidden" asp-for="@item.Id" class="form-control"  readonly="@(true)"/>
+                <span asp-validation-for="@item.Id" class="text-danger"></span>
+                <input type="hidden" asp-for="@item.upitnikID" class="form-control"  readonly="@(true)"/>
+                <span asp-validation-for="@item.upitnikID" class="text-danger"></span>
+            </div>
+                <input  type="hidden" asp-for="@item.tekstPitanja" class="form-control" />
+                <span asp-validation-for="@item.tekstPitanja" class="text-danger"></span>
     <br/>
     <br/>
-    <FORM 
->
-
-<INPUT TYPE="RADIO" VALUE="A" NAME="cc" >Almost never.<BR>
-
-<INPUT TYPE="RADIO" VALUE="B" NAME="cc" >Sometimes.<BR>
-
-<INPUT TYPE="RADIO" VALUE="C" NAME="cc" >Always.<BR>
-</FORM>
+ <div class="form-group">
+                <select asp-for="@item.odgovoreno" class="custom-select">  
+            <option value="">Choose Answer</option>  
+            <option value="1">Yes</option>  
+            <option value="2">No</option>  
+        </select> 
+            </div>
 <br/>
 <br/>
+<div class="form-group">
+                <input type="submit" value="Finish" class="btn btn-primary" />
+            </div>
+</form>
 }
-<INPUT TYPE="SUBMIT" VALUE="Finish" onclick="location.href='@Url.Action("SubmitAnswer",new { @vr=3 })'">
+
 
         
 
