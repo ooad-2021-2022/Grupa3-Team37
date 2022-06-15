@@ -77,7 +77,7 @@ namespace MindHealth.Controllers
             return NotFound();
 
         }
-        
+        [Authorize(Roles = "Korisnik")]
         [HttpPost, ActionName("MakeAnAppointment")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MakeAnAppointment([Bind("idTermina,cijenaTermina,usernameKorisnika,usernamePsihoterapeuta,opisTermina,idKorisnika,vrijemeOdrzavanja,idPsiholog")] Termin termin)

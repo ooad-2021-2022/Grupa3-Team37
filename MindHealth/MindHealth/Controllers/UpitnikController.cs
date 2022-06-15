@@ -18,32 +18,65 @@ namespace MindHealth.Controllers
         {
             _context = context;
         }
-
-        // GET: Upitnik
         public async Task<IActionResult> Index()
-        { //var applicationDbContext = _context.Korisnik.FirstOrDefault(u => u.username == User.Identity.Name);
-           // var app = _context.Upitnik.FirstOrDefault(u => u.idKorisnika == applicationDbContext.Id);
-            var a = _context.OdgovoriNaPitanje.Include(o => o.upitnik);
-            List<String> l=new List<String>();
-            l.Add("Yes");
-            l.Add("No");
-            return View(a);
+        {
+            var applicationDbContext = _context.OdgovoriNaPitanje.Include(o => o.Upitnik);
+            return View(await applicationDbContext.ToListAsync());
         }
-       
-        public async Task<IActionResult> AddTheAnswer([Bind("Id,upitnikId, odgovoreno, tekstPitanja")] OdgovoriNaPitanje odgovor)
-         {
+        public async Task<IActionResult> CalculateDiagnoses()
+        {
+            var applicationDbContext = _context.OdgovoriNaPitanje.Include(o => o.Upitnik);
+            int brojPitanja=0;
+            int brojPozitivnih = 0;
+            foreach(OdgovoriNaPitanje i in applicationDbContext)
+            {
+                brojPitanja++;
+                if (i.odgovoreno == 1)
+                {
+                    brojPozitivnih++;
+                }
+            }
+            double procenat =( (((double)brojPozitivnih) / ((double)brojPitanja)))*(double)100;
+            return View(procenat);
+        }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var odgovoriNaPitanje = await _context.OdgovoriNaPitanje.FindAsync(id);
+            if (odgovoriNaPitanje == null)
+            {
+                return NotFound();
+            }
+            ViewData["upitnikID"] = new SelectList(_context.Upitnik, "Id", "Id", odgovoriNaPitanje.upitnikID);
+            return View(odgovoriNaPitanje);
+        }
+
+        // POST: OdgovoriNaPitanjes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,upitnikID,odgovoreno,tekstPitanja")] OdgovoriNaPitanje odgovoriNaPitanje)
+        {
+            if (id != odgovoriNaPitanje.Id)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-
-                   // _context.Ocjene.Remove(o);
-                    _context.Update(odgovor);
+                    _context.Update(odgovoriNaPitanje);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OdgovorExists(odgovor.Id))
+                    if (!OdgovoriNaPitanjeExists(odgovoriNaPitanje.Id))
                     {
                         return NotFound();
                     }
@@ -54,12 +87,12 @@ namespace MindHealth.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return NotFound();
+            ViewData["upitnikID"] = new SelectList(_context.Upitnik, "Id", "Id", odgovoriNaPitanje.upitnikID);
+            return View(odgovoriNaPitanje);
         }
-        private bool OdgovorExists(int id)
+        private bool OdgovoriNaPitanjeExists(int id)
         {
-            return _context.Ocjene.Any(e => e.ID == id);
+            return _context.OdgovoriNaPitanje.Any(e => e.Id == id);
         }
-    } 
-      
-}
+    }
+    }

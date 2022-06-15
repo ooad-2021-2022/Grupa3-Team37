@@ -27,8 +27,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Upitnik" asp-action="Index">Quiz</a>
                         </li>
+
                          }
-                         <li class="nav-item">
+                            @if(User.IsInRole("Korisnik")||User.IsInRole("PremiumKorisnik")||User.IsInRole("Psiholog")){
+              <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ChangePhoto">ChangePhoto</a>
+                        </li>
+
+                         }
+                        @if (User.IsInRole("Psiholog"))
+                        {
+                             <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ManageAppointments" asp-action="Index">ManageAppointments</a>
+                        </li>
+                        }
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="Index">About</a>
                         </li>
                         <li class="nav-item">

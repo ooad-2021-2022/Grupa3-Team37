@@ -22,7 +22,10 @@ namespace MindHealth.Controllers
         {
             return View();
         }
-
+        public IActionResult ChangePhoto()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

@@ -10,7 +10,7 @@ namespace MindHealth.Models
 
         [ForeignKey("Upitnik")]
         public int upitnikID { get; set; }
-        public Upitnik upitnik { get; set; }
+        public Upitnik Upitnik { get; set; }
         public int odgovoreno { get; set; }
         public string tekstPitanja { get; set; }
 

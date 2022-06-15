@@ -585,13 +585,13 @@ namespace MindHealth.Migrations
 
             modelBuilder.Entity("MindHealth.Models.OdgovoriNaPitanje", b =>
                 {
-                    b.HasOne("MindHealth.Models.Upitnik", "upitnik")
+                    b.HasOne("MindHealth.Models.Upitnik", "Upitnik")
                         .WithMany()
                         .HasForeignKey("upitnikID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("upitnik");
+                    b.Navigation("Upitnik");
                 });
 
             modelBuilder.Entity("MindHealth.Models.PrethodnaTerapija", b =>

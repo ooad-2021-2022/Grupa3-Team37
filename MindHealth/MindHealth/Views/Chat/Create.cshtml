@@ -1,5 +1,4 @@
 ﻿@model MindHealth.Models.Chat
-
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,9 +18,10 @@
                 <span asp-validation-for="idUser" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="idTherapist" class="control-label"></label>
-                <input asp-for="idTherapist" class="form-control" />
-                <span asp-validation-for="idTherapist" class="text-danger"></span>
+             
+                <label asp-for="idTherapist" class="control-label" ></label>
+                <input asp-for="idTherapist" value="@User.Identity.Name" class="form-control" readonly="@(true)"/>
+          
             </div>
             <div class="form-group">
                 <label asp-for="message" class="control-label"></label>
@@ -36,6 +36,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Messages</a>
 </div>
 

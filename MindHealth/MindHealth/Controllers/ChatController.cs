@@ -20,13 +20,22 @@ namespace MindHealth.Controllers
         }
 
         // GET: Chat
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
-            return View(await _context.Chat.ToListAsync());
+            var x= await  _context.Chat.ToListAsync();
+            var users = await _context.Users.ToListAsync();
+           
+            List<Chat> poruke =new List<Chat>();
+            foreach(Chat i in x){
+                if (i.idUser == id.ToString()&&User.Identity.Name==i.idTherapist)
+                {
+                    poruke.Add(i);
+                } }
+            return View(poruke);
         }
 
         // GET: Chat/Create
-        public IActionResult Create()
+        public IActionResult Create(int idUsera)
         {
             return View();
         }
@@ -40,7 +49,7 @@ namespace MindHealth.Controllers
             {
                 _context.Add(chat);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),"/Chat/"+chat.idUser);
             }
             return View(chat);
         }

@@ -1,0 +1,46 @@
+﻿@model MindHealth.Models.OdgovoriNaPitanje
+
+@{
+    ViewData["Title"] = "Answer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4>@Model.Id. question :</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+               
+                <input type="hidden" asp-for="tekstPitanja" class="form-control" readonly="@(true)" />
+                <span asp-validation-for="tekstPitanja" class="text-danger"></span>
+            </div>
+         <b>@Model.tekstPitanja</b>
+            <div class="form-group">
+              
+                <input type="hidden" asp-for="upitnikID" class="form-control"/>
+                <span asp-validation-for="upitnikID" class="text-danger"></span>
+            </div>
+            </br>
+            <div class="form-group">
+                Choose the answer
+              
+ <select asp-for="odgovoreno" class="custom-select">  
+            <option value="-1">Choose Answer</option>  
+            <option value="1">Yes</option>  
+            <option value="0">No</option>  
+        </select> 
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Questions</a>
+</div>
