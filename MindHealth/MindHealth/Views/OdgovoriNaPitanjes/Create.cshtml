@@ -1,0 +1,40 @@
+﻿@model MindHealth.Models.OdgovoriNaPitanje
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>OdgovoriNaPitanje</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="upitnikID" class="control-label"></label>
+                <select asp-for="upitnikID" class ="form-control" asp-items="ViewBag.upitnikID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="odgovoreno" class="control-label"></label>
+                <input asp-for="odgovoreno" class="form-control" />
+                <span asp-validation-for="odgovoreno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tekstPitanja" class="control-label"></label>
+                <input asp-for="tekstPitanja" class="form-control" />
+                <span asp-validation-for="tekstPitanja" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

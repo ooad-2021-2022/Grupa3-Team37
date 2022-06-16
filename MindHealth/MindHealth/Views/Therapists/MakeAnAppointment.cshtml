@@ -1,0 +1,53 @@
+﻿@model MindHealth.Models.Termin
+@{
+    ViewData["Title"] = "MakeAnAppointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Make An Appointment</h3>
+<br/>
+<br/>
+<br/>
+   <div class="row">
+    <div class="col-md-4">
+        <form asp-action="MakeAnAppointment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="cijenaTermina" class="control-label"></label>
+                <input asp-for="cijenaTermina" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="cijenaTermina" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="usernameKorisnika" class="control-label"></label>
+                <input asp-for="usernameKorisnika" class="form-control" readonly="@(true)" />
+                <span asp-validation-for="usernameKorisnika" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="usernamePsihoterapeuta" class="control-label"></label>
+                <input asp-for="usernamePsihoterapeuta" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="usernamePsihoterapeuta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="opisTermina" class="control-label"></label>
+                <input asp-for="opisTermina" class="form-control"/>
+                <span asp-validation-for="opisTermina" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="idKorisnika" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="idKorisnika" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="vrijemeOdrzavanja" class="control-label"></label>
+                <input asp-for="vrijemeOdrzavanja" class="form-control"/>
+                <span asp-validation-for="vrijemeOdrzavanja" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="idPsiholog" class="form-control"  readonly="@(true)"/>
+                <span asp-validation-for="idPsiholog" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Send request" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

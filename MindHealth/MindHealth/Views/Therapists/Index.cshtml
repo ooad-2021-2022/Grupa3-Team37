@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MindHealth.Models.Korisnik>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center; font-size:300%; color:#193f91">Our Therapists</h1>
+<br/>
+ <br/>
+
+@foreach (var item in Model) {
+    if(item.skolovanje!=null){
+        <tr>
+
+  <div style="display:inline-block;vertical-align:top;">
+<img src=@item.slikaOsobe alt="img"/>
+</div>
+<div style="display:inline-block;">
+<p>
+     <br/>
+     <a asp-action="Details", asp-route-id=@item.Id>
+<b style="font-size:140%; color:#193f91" >&emsp;@item.ime @item.prezime</b></a>
+             <br/>
+ <br/>
+  <b style="font-size:70%; color:#193f91">&emsp;&emsp;&emsp;Specialization : @item.specijalizacija</b>
+  <br/>
+              <b style="font-size:70%; color:#193f91">&emsp;&emsp;&emsp;Birth date : @item.datumRodjenja.ToShortDateString()</b>
+               <br/>
+              <b style="font-size:70%; color:#193f91" >&emsp;&emsp;&emsp;Rate : @item.prosjecnaOcjena</b>
+               <br/>
+              <b style="font-size:70%; color:#193f91">&emsp;&emsp;&emsp;Language : @item.preferiraniJezik</b>
+</p>
+</div>
+       
+    </tr>
+    <br />
+    <br/>
+}}
+ <style>
+        body{
+            margin: 0;
+            background-color: #c6cbe1;
+        }
+            </style>
+    
+

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MindHealth.Models.Termin>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.cijenaTermina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usernameKorisnika)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usernamePsihoterapeuta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.opisTermina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idKorisnika)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vrijemeOdrzavanja)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idPsiholog)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.cijenaTermina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.usernameKorisnika)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.usernamePsihoterapeuta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.opisTermina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idKorisnika)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vrijemeOdrzavanja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idPsiholog)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idTermina">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idTermina">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idTermina">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

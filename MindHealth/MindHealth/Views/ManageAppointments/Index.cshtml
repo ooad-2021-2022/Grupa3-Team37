@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MindHealth.Models.Termin>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>My Appointments</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.cijenaTermina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usernameKorisnika)
+            </th>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.opisTermina)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.vrijemeOdrzavanja)
+            </th>
+         
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.cijenaTermina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.usernameKorisnika)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.opisTermina)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.vrijemeOdrzavanja)
+            </td>
+           <td>
+           <input name="Open chat" value="Open Chat" id="Button1" title="Open Chat" style="border-style:Solid; color:#FFFFFF; background-color:#193f91" type="submit" onclick="location.href='@Url.Action("Index","Chat",new{@id=@item.idKorisnika.ToString()})'">
+    </td>
+        </tr>
+}
+    </tbody>
+</table>

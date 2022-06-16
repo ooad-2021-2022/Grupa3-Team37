@@ -1,0 +1,56 @@
+﻿@model Korisnik
+@{
+ ViewData["Title"] = "Change Photo";
+}
+ 
+<div style="font-size:2vw"> <p>  <strong>Promijenite vasu sliku:</strong> </p></div>
+ 
+ 
+<td>
+	
+<img src=slikaOsobe>
+</td>
+ 
+<label asp-for="slikaOsobe" class="control-label"></label>
+<input asp-for="slikaOsobe" class="form-control" style="visibility: hidden"/>
+<span asp-validation-for="slikaOsobe" class="text-danger"></span>
+ 
+ 
+<div style="padding: 1rem; display: grid; grid-template-columns: 50% 50%">
+<div id="results"></div>
+<br />
+<div style="margin-left: 10rem">
+<div id="my_camera"></div>
+<script type="text/javascript" src="~/js/webcam.min.js"></script>
+<script>
+Webcam.set({
+width: 320,
+height: 240,
+image_format: 'jpeg',
+jpeg_quality: 90
+});
+Webcam.attach( '#my_camera' );
+</script>
+ 
+ 
+<script>
+function take_snapshot() {
+Webcam.snap(function(data_uri)
+{
+document.getElementById('results').innerHTML = '<img
+src="' + data_uri + '"/>';
+document.getElementById('slikaOsobe').value = data_uri;
+});
+}
+</script>
+<input type=button id="takeshot" class="btn btn-primary"
+value="Uslikaj" onClick="take_snapshot()">
+</div>
+</div>
+ 
+<style>
+body {
+  background-color: #C6CBE1;
+}
+</style>
+

@@ -10,15 +10,15 @@ using MindHealth.Data;
 namespace MindHealth.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220608154115_MindHealth")]
-    partial class MindHealth
+    [Migration("20220615162123_asp")]
+    partial class asp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.14")
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -221,24 +221,35 @@ namespace MindHealth.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MindHealth.Models.Dijagnoza", b =>
+            modelBuilder.Entity("MindHealth.Models.Chat", b =>
                 {
-                    b.Property<int>("idDijagnoze")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("rezultatUpitnikaID")
-                        .HasColumnType("int");
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("vrstaDijagnoze")
-                        .HasColumnType("int");
+                    b.Property<string>("TherapistId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("idDijagnoze");
+                    b.Property<string>("idTherapist")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("rezultatUpitnikaID");
+                    b.Property<string>("idUser")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Dijagnoza");
+                    b.Property<string>("message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityUserId");
+
+                    b.HasIndex("TherapistId");
+
+                    b.ToTable("Chat");
                 });
 
             modelBuilder.Entity("MindHealth.Models.Korisnik", b =>
@@ -257,7 +268,7 @@ namespace MindHealth.Migrations
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("imeIPrezime")
+                    b.Property<string>("ime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("krajRadnogVremena")
@@ -275,6 +286,9 @@ namespace MindHealth.Migrations
                     b.Property<string>("prethodnoIskustvo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("prezime")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("prosjecnaOcjena")
                         .HasColumnType("float");
 
@@ -286,6 +300,9 @@ namespace MindHealth.Migrations
 
                     b.Property<string>("slikaOsobe")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("specijalizacija")
+                        .HasColumnType("int");
 
                     b.Property<string>("username")
                         .HasColumnType("nvarchar(max)");
@@ -345,34 +362,20 @@ namespace MindHealth.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("dijagnozaID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("dijagnozaID");
-
-                    b.ToTable("OdgovoriNaPitanje");
-                });
-
-            modelBuilder.Entity("MindHealth.Models.Pitanje", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("dijagnozaId")
+                    b.Property<int>("odgovoreno")
                         .HasColumnType("int");
 
                     b.Property<string>("tekstPitanja")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("upitnikID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("dijagnozaId");
+                    b.HasIndex("upitnikID");
 
-                    b.ToTable("Pitanje");
+                    b.ToTable("OdgovoriNaPitanje");
                 });
 
             modelBuilder.Entity("MindHealth.Models.PrethodnaTerapija", b =>
@@ -427,26 +430,6 @@ namespace MindHealth.Migrations
                     b.ToTable("Racun");
                 });
 
-            modelBuilder.Entity("MindHealth.Models.RezultatUpitnika", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("postotak")
-                        .HasColumnType("float");
-
-                    b.Property<int>("upitnikId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("upitnikId");
-
-                    b.ToTable("RezultatUpitnika");
-                });
-
             modelBuilder.Entity("MindHealth.Models.SpecijalizacijaDijagnoze", b =>
                 {
                     b.Property<int>("id")
@@ -477,6 +460,9 @@ namespace MindHealth.Migrations
                     b.Property<int>("idKorisnika")
                         .HasColumnType("int");
 
+                    b.Property<int>("idPsiholog")
+                        .HasColumnType("int");
+
                     b.Property<string>("opisTermina")
                         .HasColumnType("nvarchar(max)");
 
@@ -490,8 +476,6 @@ namespace MindHealth.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("idTermina");
-
-                    b.HasIndex("idKorisnika");
 
                     b.ToTable("Termin");
                 });
@@ -564,15 +548,19 @@ namespace MindHealth.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MindHealth.Models.Dijagnoza", b =>
+            modelBuilder.Entity("MindHealth.Models.Chat", b =>
                 {
-                    b.HasOne("MindHealth.Models.RezultatUpitnika", "RezultatUpitnika")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
-                        .HasForeignKey("rezultatUpitnikaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdentityUserId");
 
-                    b.Navigation("RezultatUpitnika");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Therapist")
+                        .WithMany()
+                        .HasForeignKey("TherapistId");
+
+                    b.Navigation("IdentityUser");
+
+                    b.Navigation("Therapist");
                 });
 
             modelBuilder.Entity("MindHealth.Models.Ocjene", b =>
@@ -599,24 +587,13 @@ namespace MindHealth.Migrations
 
             modelBuilder.Entity("MindHealth.Models.OdgovoriNaPitanje", b =>
                 {
-                    b.HasOne("MindHealth.Models.Dijagnoza", "Dijagnoza")
+                    b.HasOne("MindHealth.Models.Upitnik", "Upitnik")
                         .WithMany()
-                        .HasForeignKey("dijagnozaID")
+                        .HasForeignKey("upitnikID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Dijagnoza");
-                });
-
-            modelBuilder.Entity("MindHealth.Models.Pitanje", b =>
-                {
-                    b.HasOne("MindHealth.Models.Dijagnoza", "Dijagnoza")
-                        .WithMany()
-                        .HasForeignKey("dijagnozaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Dijagnoza");
+                    b.Navigation("Upitnik");
                 });
 
             modelBuilder.Entity("MindHealth.Models.PrethodnaTerapija", b =>
@@ -641,29 +618,7 @@ namespace MindHealth.Migrations
                     b.Navigation("Termin");
                 });
 
-            modelBuilder.Entity("MindHealth.Models.RezultatUpitnika", b =>
-                {
-                    b.HasOne("MindHealth.Models.Upitnik", "Upitnik")
-                        .WithMany()
-                        .HasForeignKey("upitnikId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Upitnik");
-                });
-
             modelBuilder.Entity("MindHealth.Models.SpecijalizacijaDijagnoze", b =>
-                {
-                    b.HasOne("MindHealth.Models.Korisnik", "Korisnik")
-                        .WithMany()
-                        .HasForeignKey("idKorisnika")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Korisnik");
-                });
-
-            modelBuilder.Entity("MindHealth.Models.Termin", b =>
                 {
                     b.HasOne("MindHealth.Models.Korisnik", "Korisnik")
                         .WithMany()

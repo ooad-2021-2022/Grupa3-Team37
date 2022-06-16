@@ -1,0 +1,48 @@
+﻿
+@model IEnumerable<MindHealth.Models.OdgovoriNaPitanje>
+
+@{
+    ViewData["Title"] = "Questionnaire";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Quiz</h1>
+</br>
+</br>
+</br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Questions
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.tekstPitanja)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Answer</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<br/>
+<br/>
+<br/>
+
+<input name="Finish" value="Finish" id="Button1" title="Finish" style="border-style:Solid; color:#FFFFFF; background-color:#193f91" type="submit" onclick="location.href='@Url.Action("CalculateDiagnoses")'">
+    
+
+
+        
+
+   
+
